@@ -1,6 +1,14 @@
 <?php
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
 use Dotenv\Dotenv;
+
+try {
+    (new Dotenv(__DIR__ . '/..'))->load();
+} catch (Exception $e) {
+    //
+}
 
 if (PHP_SAPI == 'cli-server') {
     // To help the built-in PHP dev server, check if the request was actually for
@@ -11,8 +19,6 @@ if (PHP_SAPI == 'cli-server') {
         return false;
     }
 }
-
-require __DIR__ . '/../vendor/autoload.php';
 
 session_start();
 
@@ -25,22 +31,6 @@ require __DIR__ . '/../src/dependencies.php';
 
 // Register routes
 require __DIR__ . '/../src/routes.php';
-
-(new Dotenv(__DIR__ . '/..'))->load();
-
-$manager = new \Illuminate\Database\Capsule\Manager();
-$manager->addConnection([
-    'driver'    => 'pgsql',
-    'host'      => getenv('DB_HOST'),
-    'database'  => getenv('DB_NAME'),
-    'username'  => getenv('DB_USER'),
-    'password'  => getenv('DB_PASS'),
-    'charset'   => 'utf8',
-    'collation' => 'utf8_unicode_ci',
-    'prefix'    => '',
-]);
-$manager->setAsGlobal();
-$manager->bootEloquent();
 
 // Run app
 $app->run();

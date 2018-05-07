@@ -40,7 +40,7 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
     protected $phinx;
 
     /**
-     * Create Phinx application and run the migrations.
+     * Create application and run the migrations.
      *
      * @return void
      *
@@ -67,6 +67,24 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
         $this->phinx = new PhinxApplication();
         $this->phinx->setAutoExit(false);
         $this->phinx->run(new StringInput('migrate'), new NullOutput());
+
+        if (method_exists($this, 'beginTransaction')) {
+            $this->beginTransaction();
+        }
+    }
+
+    /**
+     * Do the rollback in database if necessary.
+     *
+     * @return void
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        if (method_exists($this, 'rollbackTransaction')) {
+            $this->rollbackTransaction();
+        }
     }
 
     /**

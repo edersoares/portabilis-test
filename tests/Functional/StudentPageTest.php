@@ -6,19 +6,7 @@ use App\Model\StudentModel;
 
 class StudentPageTest extends BaseTestCase
 {
-    protected function setUp()
-    {
-        parent::setUp();
-
-        StudentModel::query()->getConnection()->beginTransaction();
-    }
-
-    protected function tearDown()
-    {
-        parent::tearDown();
-
-        StudentModel::query()->getConnection()->rollBack();
-    }
+    use RefreshDatabase;
 
     public function testGetIndex()
     {

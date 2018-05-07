@@ -21,4 +21,11 @@ class StudentModel extends Model
     protected $fillable = [
         'name', 'cpf', 'rg', 'phone', 'birthday'
     ];
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 }

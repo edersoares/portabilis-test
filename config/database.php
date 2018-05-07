@@ -6,6 +6,12 @@ return [
 
     'connections' => [
 
+        'testing' => [
+            'driver' => 'sqlite',
+            'database' => __DIR__ . '/../database/testing.sqlite',
+            'prefix' => '',
+        ],
+
         'sqlite' => [
             'driver' => 'sqlite',
             'database' => __DIR__ . '/../database/' . getenv('DB_NAME'),

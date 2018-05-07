@@ -6,6 +6,8 @@ require __DIR__.'/vendor/autoload.php';
 
 (new Dotenv(__DIR__))->load();
 
+$config = require __DIR__ . '/config/database.php';
+
 return [
     'paths'         => [
         'migrations' => __DIR__.'/database',
@@ -14,12 +16,12 @@ return [
         'default_migration_table' => 'phinxlog',
         'default_database'        => 'development',
         'development'              => [
-            'adapter' => 'pgsql',
-            'host'    => getenv('DB_HOST'),
-            'name'    => getenv('DB_NAME'),
-            'user'    => getenv('DB_USER'),
-            'pass'    => getenv('DB_PASS'),
-            'port'    => 5432,
+            'adapter' => $config['connections'][$config['default']]['driver'],
+            'host'    => $config['connections'][$config['default']]['host'],
+            'port'    => $config['connections'][$config['default']]['port'],
+            'name'    => $config['connections'][$config['default']]['database'],
+            'user'    => $config['connections'][$config['default']]['username'],
+            'pass'    => $config['connections'][$config['default']]['password'],
             'charset' => 'utf8',
         ],
     ],

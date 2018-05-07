@@ -5,10 +5,9 @@ use Phinx\Migration\AbstractMigration;
 
 class CreateStudents extends AbstractMigration
 {
-    public function change()
+    public function up()
     {
-        $table = $this->table('students', ['id' => false]);
-        $table->addColumn('id', 'integer', ['signed' => true])
+        $this->table('students')
             ->addColumn('name', 'string', ['length' => 50])
             ->addColumn('cpf', 'string', ['length' => 11])
             ->addColumn('rg', 'string', ['length' => 14])
@@ -16,10 +15,11 @@ class CreateStudents extends AbstractMigration
             ->addColumn('birthday', 'date')
             ->addTimestamps()
             ->addIndex(['cpf'], ['unique' => true, 'name' => 'idx_students_cpf'])
-            ->create();
+            ->save();
+    }
 
-        $this->execute("CREATE SEQUENCE students_id_seq INCREMENT 1 START 1 MINVALUE 1");
-        $this->execute('ALTER TABLE students ADD PRIMARY KEY (id)');
-        $this->execute('ALTER TABLE students ALTER id SET DEFAULT nextval(\'students_id_seq\'::regclass)');
+    public function down()
+    {
+        $this->dropTable('students');
     }
 }

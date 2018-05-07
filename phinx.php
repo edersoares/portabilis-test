@@ -10,18 +10,18 @@ $config = require __DIR__ . '/config/database.php';
 
 return [
     'paths'         => [
-        'migrations' => __DIR__.'/database',
+        'migrations' => $config['migrations'] ?? null,
     ],
     'environments'  => [
         'default_migration_table' => 'phinxlog',
         'default_database'        => 'development',
         'development'              => [
-            'adapter' => $config['connections'][$config['default']]['driver'],
-            'host'    => $config['connections'][$config['default']]['host'],
-            'port'    => $config['connections'][$config['default']]['port'],
-            'name'    => $config['connections'][$config['default']]['database'],
-            'user'    => $config['connections'][$config['default']]['username'],
-            'pass'    => $config['connections'][$config['default']]['password'],
+            'adapter' => $config['connections'][$config['default']]['driver'] ?? null,
+            'host'    => $config['connections'][$config['default']]['host'] ?? null,
+            'port'    => $config['connections'][$config['default']]['port'] ?? null,
+            'name'    => $config['connections'][$config['default']]['database'] ?? null,
+            'user'    => $config['connections'][$config['default']]['username'] ?? null,
+            'pass'    => $config['connections'][$config['default']]['password'] ?? null,
             'charset' => 'utf8',
         ],
     ],

@@ -48,6 +48,6 @@ return [
 
     ],
 
-    'migrations' => __DIR__ . '/../database',
+    'migrations' => __DIR__ . '/../database/migrations',
 
 ];

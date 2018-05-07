@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-
-use App\Model\StudentModel;
+use App\Services\StudentService;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,6 +17,11 @@ class StudentController
     protected $app;
 
     /**
+     * @var StudentService
+     */
+    protected $service;
+
+    /**
      * StudentController constructor.
      *
      * @param ContainerInterface $app
@@ -25,6 +29,7 @@ class StudentController
     public function __construct(ContainerInterface $app)
     {
         $this->app = $app;
+        $this->service = $app->get(StudentService::class);
     }
 
     /**
@@ -37,10 +42,8 @@ class StudentController
      */
     public function index(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $students = StudentModel::all();
-
         return $this->app->get('renderer')->render($response, 'index.phtml', [
-            'students' => $students
+            'students' => $this->service->all()
         ]);
     }
 
@@ -67,7 +70,7 @@ class StudentController
      */
     public function store(ServerRequestInterface $request, ResponseInterface $response)
     {
-        StudentModel::create($request->getParsedBody());
+        $this->service->create($request->getParsedBody());
 
         return $this->index($request, $response);
     }
@@ -83,10 +86,8 @@ class StudentController
      */
     public function edit(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
-        $student = StudentModel::find($args['id']);
-
         return $this->app->get('renderer')->render($response, 'edit.phtml', [
-            'student' => $student
+            'student' => $this->service->find($args['id'])
         ]);
     }
 
@@ -101,7 +102,7 @@ class StudentController
      */
     public function update(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
-        StudentModel::find($args['id'])->update($request->getParsedBody());
+        $this->service->update($args['id'], $request->getParsedBody());
 
         return $this->index($request, $response);
     }
@@ -117,7 +118,7 @@ class StudentController
      */
     public function delete(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
-        StudentModel::find($args['id'])->delete();
+        $this->service->delete($args['id']);
 
         return $this->index($request, $response);
     }

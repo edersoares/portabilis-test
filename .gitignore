@@ -4,3 +4,4 @@
 /.idea
 .env
 /database/*.sqlite
+/database/data

@@ -6,7 +6,8 @@ volumes:
 
 services:
     slim:
-        image: php:7-alpine
+        build: ./docker/slim
+        container_name: slim
         working_dir: /var/www
         command: php -S 0.0.0.0:8080 -t public
         environment:
@@ -16,3 +17,14 @@ services:
         volumes:
             - .:/var/www
             - logs:/var/www/logs
+        links:
+          - postgres
+    postgres:
+        image: postgres
+        container_name: postgres
+        env_file:
+          - .env
+        ports:
+          - 5432:5432
+        volumes:
+          - ./database/data:/var/lib/postgresql/data

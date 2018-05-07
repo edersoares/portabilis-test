@@ -1,4 +1,8 @@
 <phpunit bootstrap="vendor/autoload.php">
+    <php>
+        <env name="DB_DRIVER" value="sqlite"/>
+        <env name="DB_NAME" value="database.sqlite"/>
+    </php>
     <testsuites>
         <testsuite name="SlimSkeleton">
             <directory>tests</directory>

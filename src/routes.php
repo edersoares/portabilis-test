@@ -11,3 +11,6 @@ $app->post('/students/create', \App\Controller\StudentController::class . ':stor
 $app->get('/students/edit/{id}', \App\Controller\StudentController::class . ':edit');
 $app->post('/students/edit/{id}', \App\Controller\StudentController::class . ':update');
 $app->get('/students/delete/{id}', \App\Controller\StudentController::class . ':delete');
+
+$app->get('/api/students', \App\Controller\Api\StudentController::class . ':index');
+$app->get('/api/students/{id}', \App\Controller\Api\StudentController::class . ':browse');

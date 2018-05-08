@@ -10,6 +10,20 @@ class StudentEloquentRepository implements StudentRepository
     /**
      * @inheritdoc
      */
+    public function findByCpf($cpf, $ignoreId = null)
+    {
+        $query = StudentModel::query()->where('cpf', $cpf);
+
+        if ($ignoreId) {
+            $query->where('id', '<>', $ignoreId);
+        }
+
+        return $query->first();
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function all()
     {
         return StudentModel::all();

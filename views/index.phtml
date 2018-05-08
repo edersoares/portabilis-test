@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>Slim 3</title>
+    <title>Alunos</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -22,6 +22,16 @@
         <div class="col-md-12">
             <a href="/students/create" class="btn btn-primary">Novo</a>
             <h1>Alunos</h1>
+            <?php if ($_SESSION['error']): ?>
+            <div class="alert alert-danger">
+                <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
+            </div>
+            <?php endif ?>
+            <?php if ($_SESSION['success']): ?>
+            <div class="alert alert-success">
+                <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+            </div>
+            <?php endif ?>
             <table class="table">
                 <thead>
                 <tr>
@@ -30,22 +40,23 @@
                     <th>RG</th>
                     <th>Telefone</th>
                     <th>Data de nascimento</th>
-                    <th>&nbsp;</th>
-                    <th>&nbsp;</th>
+                    <th colspan="2"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach($students as $student){ ?>
+                <?php foreach($students as $student): ?>
                 <tr>
                     <td><?php echo $student['name'] ?></td>
                     <td><?php echo $student['cpf'] ?></td>
                     <td><?php echo $student['rg'] ?></td>
                     <td><?php echo $student['phone'] ?></td>
                     <td><?php echo $student['birthday'] ?></td>
-                    <td><a href="/students/edit/<?php echo $student['id'] ?>" class="btn btn-primary">Edit</a></td>
-                    <td><a href="/students/delete/<?php echo $student['id'] ?>" class="btn btn-primary">Delete</a></td>
+                    <td>
+                        <a href="/students/edit/<?php echo $student['id'] ?>" class="btn btn-primary">Editar</a>
+                        <a href="/students/delete/<?php echo $student['id'] ?>" class="btn btn-primary">Excluir</a>
+                    </td>
                 </tr>
-                <?php } ?>
+                <?php endforeach ?>
                 </tbody>
 
             </table>

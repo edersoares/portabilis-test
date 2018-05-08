@@ -8,6 +8,16 @@ use Illuminate\Database\Eloquent\Collection;
 interface StudentRepository
 {
     /**
+     * Return student with CPF ignoring ID.
+     *
+     * @param string    $cpf
+     * @param int|null $ignoreId
+     *
+     * @return StudentModel
+     */
+    public function findByCpf($cpf, $ignoreId = null);
+
+    /**
      * Return all students.
      *
      * @return Collection

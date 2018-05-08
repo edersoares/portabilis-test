@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Model\StudentModel;
 use App\Services\StudentService;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -57,7 +58,9 @@ class StudentController
      */
     public function create(ServerRequestInterface $request, ResponseInterface $response)
     {
-        return $this->app->get('renderer')->render($response, 'create.phtml');
+        return $this->app->get('renderer')->render($response, 'create.phtml', [
+            'student' => (new StudentModel())->toArray()
+        ]);
     }
 
     /**
@@ -70,7 +73,17 @@ class StudentController
      */
     public function store(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $this->service->create($request->getParsedBody());
+        $data = $request->getParsedBody();
+
+        if ($error = $this->service->validate($data)) {
+            $_SESSION['error'] = $error;
+
+            return $this->app->get('renderer')->render($response, 'create.phtml', [
+                'student' => (new StudentModel($data))->toArray()
+            ]);
+        }
+
+        $this->service->create($data);
 
         return $this->index($request, $response);
     }
@@ -102,6 +115,16 @@ class StudentController
      */
     public function update(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
+        $data = $request->getParsedBody();
+
+        if ($error = $this->service->validate($data, $args['id'])) {
+            $_SESSION['error'] = $error;
+
+            return $this->app->get('renderer')->render($response, 'edit.phtml', [
+                'student' => (new StudentModel($data))->toArray()
+            ]);
+        }
+
         $this->service->update($args['id'], $request->getParsedBody());
 
         return $this->index($request, $response);

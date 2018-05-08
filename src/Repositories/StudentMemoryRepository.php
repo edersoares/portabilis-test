@@ -46,6 +46,14 @@ class StudentMemoryRepository implements StudentRepository
     /**
      * @inheritdoc
      */
+    public function findByCpf($cpf, $ignoreId = null)
+    {
+        return $this->repository->findByCpf($cpf, $ignoreId);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function all()
     {
         if ($this->cache->isEmpty()) {
